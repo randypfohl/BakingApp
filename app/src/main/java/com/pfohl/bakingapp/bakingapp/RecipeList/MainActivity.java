@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.pfohl.bakingapp.bakingapp.R;
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private static String TAG = MainActivity.class.getSimpleName();
 
     // View Binding
-    @BindView(R.id.recipe_rv) RecyclerView recipes;
+    @BindView(R.id.recipe_rv) RecyclerView recipesRV;
 
     //Data
     List<Recipe> recipeList = new ArrayList<>();
@@ -38,10 +39,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<Recipe> data) {
                 recipeList = data;
+                recipesRV.swapAdapter(new RecipeListAdapter(data), true);
             }
         });
 
         viewModel.loadRecipes(this);
+        RecipeListAdapter adapter = new RecipeListAdapter(recipeList);
+        recipesRV.setAdapter(adapter);
+        recipesRV.setLayoutManager(new LinearLayoutManager(this));
 
     }
 }
