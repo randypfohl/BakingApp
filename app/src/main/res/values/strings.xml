@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BakingApp</string>
+    <string name="Serves_Prefix">Serves:</string>
+    <string name="recipe_intent_tag">recipe</string>
 </resources>

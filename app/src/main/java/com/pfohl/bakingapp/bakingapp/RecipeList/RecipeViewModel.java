@@ -15,11 +15,8 @@ public class RecipeViewModel extends ViewModel {
 
     public MutableLiveData<List<Recipe>> recipes = new MutableLiveData<>();
 
-    // Being a naughty developer and including behavior in my view model until we have a real repository to observe.
-    // typically I would want this to bind to the repo for changes and be a mere pass through.
     public void loadRecipes(Context context){
         List<Recipe> list = RecipeRepository.getRecipes(context);
         recipes.setValue(list);
     }
-
 }
