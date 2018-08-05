@@ -9,8 +9,8 @@ import java.util.List;
 public class Recipe implements Parcelable {
     int id;
     String name;
-    List<Ingredient> ingredients;
-    List<Step> steps;
+    ArrayList<Ingredient> ingredients;
+    ArrayList<Step> steps;
     int servings;
     String image;
 
@@ -34,15 +34,15 @@ public class Recipe implements Parcelable {
         return ingredients;
     }
 
-    public void setIngredients( List<Ingredient> ingredients) {
+    public void setIngredients( ArrayList<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public List<Step> getSteps() {
+    public ArrayList<Step> getSteps() {
         return steps;
     }
 
-    public void setSteps(List<Step> steps) {
+    public void setSteps(ArrayList<Step> steps) {
         this.steps = steps;
     }
 
