@@ -13,6 +13,8 @@ import com.pfohl.bakingapp.bakingapp.R;
 import com.pfohl.bakingapp.bakingapp.Repo.Model.Step;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +55,7 @@ public class StepListFragment extends Fragment implements StepListAdapter.OnStep
         unbinder = ButterKnife.bind(this, view);
         steps = getArguments().getParcelableArrayList("steplist");
 
-        StepListAdapter adapter = new StepListAdapter(steps, this);
+        StepListAdapter adapter = new StepListAdapter(generateList(), this);
         stepListRV.setAdapter(adapter);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(this.getActivity());
         stepListRV.setLayoutManager(manager);
@@ -67,12 +69,25 @@ public class StepListFragment extends Fragment implements StepListAdapter.OnStep
         unbinder.unbind();
     }
 
+    public List<String> generateList(){
+        ArrayList<String> names = new ArrayList<String>();
+        names.add("Ingredients");
+        for(Step step : steps){
+            names.add(step.getShortDescription());
+        }
+        return names;
+    }
     // observer interfaces
     @Override
-    public void onItemClick(Step step) {
+    public void onItemClick(int position) {
         if(listener == null){
             throw new IllegalStateException("No listener was provided but onItemClick was called");
         }
-        listener.onItemClick(step);
+        if(position < 0){
+            //todo: hook up ingredients
+        }
+        else {
+            listener.onItemClick(steps.get(position));
+        }
     }
 }
