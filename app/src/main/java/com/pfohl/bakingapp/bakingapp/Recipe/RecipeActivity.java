@@ -13,14 +13,12 @@ import com.pfohl.bakingapp.bakingapp.StepDetails.StepDetailsFragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class RecipeActivity extends AppCompatActivity implements StepListFragment.OnSelectClickListener {
+public class RecipeActivity extends AppCompatActivity implements StepListFragment.OnSelectClickListener, StepDetailsFragment.NavigationListener {
 
     private Recipe recipe;
     private Unbinder unbinder;
-
+    private int position;
     //@Optional @BindView(R.id.)
-
-    Step step;
 
     boolean tablet = false;
 
@@ -68,11 +66,27 @@ public class RecipeActivity extends AppCompatActivity implements StepListFragmen
 
         }
         else {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("step", step);
+
             StepDetailsFragment fragment = new StepDetailsFragment();
+            fragment.setListener(this);
+            fragment.setArguments(bundle);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.step_fragment_frame, fragment, "StepDetails");
             transaction.addToBackStack("StepDetails");
             transaction.commit();
         }
     }
+
+    @Override
+    public void onNavigationRequested(int position) {
+        int length = recipe.getSteps().size();
+
+        if(position >= 0 && position < length){
+            setStepDetails(recipe.getSteps().get(position));
+        }
+    }
+
+
 }
