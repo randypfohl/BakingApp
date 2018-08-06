@@ -47,28 +47,25 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="0dp">
 
-        <Button
+        <ImageButton
             android:id="@+id/back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textAlignment="gravity" />
+            android:textAlignment="gravity"
+            android:src="@drawable/ic_arrow_back_black_24dp"
+        />
 
-        <!--android:text="@string/previous_button"-->
-        <!--android:drawableLeft="@drawable/ic_arrow_back_black_24dp"-->
-        <!--android:drawableStart="@drawable/ic_arrow_back_black_24dp"-->
-
-        <!--android:text="@string/next_button"-->
-        <!--android:drawableRight="@drawable/ic_arrow_forward_black_24dp"-->
-        <!--android:drawableEnd="@drawable/ic_arrow_forward_black_24dp"-->
-        <Button
+        <ImageButton
             android:id="@+id/forward_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:textAlignment="gravity" />
+            android:textAlignment="gravity"
+            android:src="@drawable/ic_arrow_forward_black_24dp"
+        />
 
     </LinearLayout>
 

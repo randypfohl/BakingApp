@@ -29,7 +29,7 @@ import butterknife.Unbinder;
 
 public class StepDetailsFragment extends Fragment {
 
-    @BindView(R.id.video_view)PlayerView playerView;
+    @BindView(R.id.video_view) PlayerView playerView;
     @BindView(R.id.step_desc_tv) TextView stepDescription;
 
     @OnClick(R.id.back_button)
