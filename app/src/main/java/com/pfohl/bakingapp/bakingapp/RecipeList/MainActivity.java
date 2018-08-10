@@ -3,13 +3,18 @@ package com.pfohl.bakingapp.bakingapp.RecipeList;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProviders;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.pfohl.bakingapp.bakingapp.IdlingResource.BakingIdlingResource;
 import com.pfohl.bakingapp.bakingapp.R;
 import com.pfohl.bakingapp.bakingapp.Repo.Model.Recipe;
 
@@ -22,31 +27,60 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity {
     // static
     private static String TAG = MainActivity.class.getSimpleName();
+    private static int GRID_COLUMNS = 3;
 
     // View Binding
-    @BindView(R.id.recipe_rv) RecyclerView recipesRV;
+    @Nullable @BindView(R.id.recipe_rv) RecyclerView recipesRV;
+
+    @Nullable @BindView(R.id.recipe_tablet_rv) RecyclerView recipesTabletRV;
+
+    @Nullable
+    private BakingIdlingResource mIdlingResource;
 
     //Data
     List<Recipe> recipeList = new ArrayList<>();
+
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        if (mIdlingResource == null) {
+            mIdlingResource = new BakingIdlingResource();
+        }
+        return mIdlingResource;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        getIdlingResource();
+        mIdlingResource.setIdleState(false);
         RecipeViewModel viewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
         viewModel.recipes.observe(this, new Observer<List<Recipe>>() {
             @Override
             public void onChanged(@Nullable List<Recipe> data) {
                 recipeList = data;
-                recipesRV.swapAdapter(new RecipeListAdapter(data), true);
+                if(recipesTabletRV == null){
+                    recipesRV.swapAdapter(new RecipeListAdapter(data), true);
+                }
+                else {
+                    recipesTabletRV.swapAdapter(new RecipeListAdapter(data), true);
+                }
             }
         });
 
         viewModel.loadRecipes(this);
         RecipeListAdapter adapter = new RecipeListAdapter(recipeList);
-        recipesRV.setAdapter(adapter);
-        recipesRV.setLayoutManager(new LinearLayoutManager(this));
+
+        if(recipesTabletRV == null) {
+            recipesRV.setAdapter(adapter);
+            recipesRV.setLayoutManager(new LinearLayoutManager(this));
+        }
+        else {
+            recipesTabletRV.setAdapter(adapter);
+            recipesTabletRV.setLayoutManager(new GridLayoutManager(this, GRID_COLUMNS ));
+        }
+        mIdlingResource.setIdleState(true);
     }
 }

@@ -20,9 +20,8 @@ public class RecipeActivity extends AppCompatActivity implements StepListFragmen
 
     private Recipe recipe;
     private Unbinder unbinder;
-    private int position;
-
     boolean tablet = false;
+    boolean list = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +68,8 @@ public class RecipeActivity extends AppCompatActivity implements StepListFragmen
             fragment.setArguments(bundle);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.details_frame, fragment, "StepDetails");
-            transaction.addToBackStack("StepDetails");
             transaction.commit();
+            list = true;
         }
         else {
             Bundle bundle = new Bundle();
@@ -81,8 +80,8 @@ public class RecipeActivity extends AppCompatActivity implements StepListFragmen
             fragment.setArguments(bundle);
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
             transaction.replace(R.id.step_fragment_frame, fragment, "StepDetails");
-            transaction.addToBackStack("StepDetails");
             transaction.commit();
+            list = true;
         }
     }
 
@@ -95,5 +94,24 @@ public class RecipeActivity extends AppCompatActivity implements StepListFragmen
         }
     }
 
+    @Override
+    public void onBackPressed() {
 
+        if(list){
+            Bundle bundle = new Bundle();
+            bundle.putParcelableArrayList("steplist", recipe.getSteps());
+            StepListFragment stepList = new StepListFragment();
+            stepList.setOnSelectListener(this);
+            stepList.setArguments(bundle);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.step_fragment_frame, stepList, "stepListFrag");
+            transaction.commit();
+            list = false;
+        }
+        else {
+            super.onBackPressed();
+        }
+
+
+    }
 }
