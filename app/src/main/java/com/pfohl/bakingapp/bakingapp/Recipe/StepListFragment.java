@@ -32,7 +32,7 @@ public class StepListFragment extends Fragment implements StepListAdapter.OnStep
     private OnSelectClickListener listener;
 
     public interface OnSelectClickListener {
-        void onItemClick(Step step);
+        void onItemClick(int position);
     }
 
     public StepListFragment() {
@@ -83,11 +83,6 @@ public class StepListFragment extends Fragment implements StepListAdapter.OnStep
         if(listener == null){
             throw new IllegalStateException("No listener was provided but onItemClick was called");
         }
-        if(position < 0){
-            //todo: hook up ingredients
-        }
-        else {
-            listener.onItemClick(steps.get(position));
-        }
+            listener.onItemClick(position);
     }
 }

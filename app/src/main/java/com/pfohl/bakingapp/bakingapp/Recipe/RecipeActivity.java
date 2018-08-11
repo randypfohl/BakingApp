@@ -6,7 +6,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.FrameLayout;
 
+import com.pfohl.bakingapp.bakingapp.Ingredient.IngredientListFragment;
 import com.pfohl.bakingapp.bakingapp.R;
+import com.pfohl.bakingapp.bakingapp.Repo.Model.Ingredient;
 import com.pfohl.bakingapp.bakingapp.Repo.Model.Recipe;
 import com.pfohl.bakingapp.bakingapp.Repo.Model.Step;
 import com.pfohl.bakingapp.bakingapp.StepDetails.StepDetailsFragment;
@@ -51,8 +53,13 @@ public class RecipeActivity extends AppCompatActivity implements StepListFragmen
 
 
     @Override
-    public void onItemClick(Step step) {
-    setStepDetails(step);
+    public void onItemClick(int position) {
+        if(position >= 0){
+            setStepDetails(recipe.getSteps().get(0));
+        }
+        else {
+            showIngredients();
+        }
     }
 
     private void setStepDetails(Step step){
@@ -82,6 +89,27 @@ public class RecipeActivity extends AppCompatActivity implements StepListFragmen
             transaction.replace(R.id.step_fragment_frame, fragment, "StepDetails");
             transaction.commit();
             list = true;
+        }
+    }
+
+    private void showIngredients(){
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("ingredients", recipe.getIngredients());
+        list = false;
+
+        if(tablet){
+            IngredientListFragment fragment = new IngredientListFragment();
+            fragment.setArguments(bundle);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.details_frame, fragment, "Ingredients");
+            transaction.commit();
+        }
+        else {
+            IngredientListFragment fragment = new IngredientListFragment();
+            fragment.setArguments(bundle);
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.step_fragment_frame, fragment, "Ingredients");
+            transaction.commit();
         }
     }
 
