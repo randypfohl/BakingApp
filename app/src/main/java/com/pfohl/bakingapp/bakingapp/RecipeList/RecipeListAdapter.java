@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.pfohl.bakingapp.bakingapp.R;
 import com.pfohl.bakingapp.bakingapp.Recipe.RecipeActivity;
 import com.pfohl.bakingapp.bakingapp.Repo.Model.Recipe;
+import com.pfohl.bakingapp.bakingapp.Widget.RecipeService;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -48,6 +49,8 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                RecipeService.startActionUpdateListView(context, recipe);
+
                 Intent intent = new Intent(context, RecipeActivity.class);
                 intent.putExtra(context.getString(R.string.recipe_intent_tag), recipe);
                 context.startActivity(intent);

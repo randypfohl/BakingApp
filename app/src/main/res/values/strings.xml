@@ -3,6 +3,7 @@
     <string name="Serves_Prefix">Serves:</string>
     <string name="recipe_intent_tag">recipe</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="appwidget_text">Recipes</string>
+    <string name="add_widget">Add widget</string>
+
 </resources>

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pfohl.bakingapp.bakingapp.R;
-import com.pfohl.bakingapp.bakingapp.Repo.Model.Step;
 
 import java.util.List;
 

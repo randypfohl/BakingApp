@@ -13,7 +13,6 @@ import com.pfohl.bakingapp.bakingapp.R;
 import com.pfohl.bakingapp.bakingapp.Repo.Model.Step;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;

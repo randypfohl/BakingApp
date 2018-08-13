@@ -3,7 +3,6 @@ package com.pfohl.bakingapp.bakingapp.Ingredient;
 
 import android.app.Fragment;
 import android.os.Bundle;
-
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.pfohl.bakingapp.bakingapp.R;
-import com.pfohl.bakingapp.bakingapp.Recipe.StepListAdapter;
 import com.pfohl.bakingapp.bakingapp.Repo.Model.Ingredient;
 
 import java.util.ArrayList;

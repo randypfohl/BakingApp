@@ -2,20 +2,16 @@ package com.pfohl.bakingapp.bakingapp.Recipe;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.FrameLayout;
+import android.support.v7.app.AppCompatActivity;
 
 import com.pfohl.bakingapp.bakingapp.Ingredient.IngredientListFragment;
 import com.pfohl.bakingapp.bakingapp.R;
-import com.pfohl.bakingapp.bakingapp.Repo.Model.Ingredient;
 import com.pfohl.bakingapp.bakingapp.Repo.Model.Recipe;
 import com.pfohl.bakingapp.bakingapp.Repo.Model.Step;
 import com.pfohl.bakingapp.bakingapp.StepDetails.StepDetailsFragment;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Optional;
 import butterknife.Unbinder;
 
 public class RecipeActivity extends AppCompatActivity implements StepListFragment.OnSelectClickListener, StepDetailsFragment.NavigationListener {
