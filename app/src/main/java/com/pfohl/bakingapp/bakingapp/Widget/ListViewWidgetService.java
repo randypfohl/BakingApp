@@ -31,6 +31,8 @@ class AppWidgetListView implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
+        recipe = RecipeRepository.getLastViewedRecipe(context);
+        ingredients = recipe.getIngredients();
     }
 
     @Override
