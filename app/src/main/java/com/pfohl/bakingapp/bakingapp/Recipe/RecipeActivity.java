@@ -51,7 +51,7 @@ public class RecipeActivity extends AppCompatActivity implements StepListFragmen
     @Override
     public void onItemClick(int position) {
         if(position >= 0){
-            setStepDetails(recipe.getSteps().get(0));
+            setStepDetails(recipe.getSteps().get(position));
         }
         else {
             showIngredients();

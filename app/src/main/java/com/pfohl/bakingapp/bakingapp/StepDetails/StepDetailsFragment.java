@@ -66,7 +66,14 @@ public class StepDetailsFragment extends Fragment {
         this.step = getArguments().getParcelable("step");
         this.unbinder = ButterKnife.bind(this, view);
         initializeView();
-        initializePlayer(savedInstanceState);
+
+        if(!step.getVideoURL().isEmpty()){
+            initializePlayer(savedInstanceState);
+        }
+        else {
+            playerView.setVisibility(View.GONE);
+        }
+
         return  view;
     }
 
@@ -90,7 +97,7 @@ public class StepDetailsFragment extends Fragment {
                 DefaultHttpDataSourceFactory("bakingApp"))
                 .createMediaSource(Uri.parse(step.getVideoURL()));
         player.prepare(mediaSource, false, false);
-
+        playerView.setVisibility(View.VISIBLE);
 //        if (savedInstanceState == null) {
 //            player.setPlayWhenReady(true);
 //        } else if (savedInstanceState.containsKey(PLAYBACK_POS_EXTRA)) {
