@@ -32,13 +32,15 @@ class AppWidgetListView implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public void onCreate() {
         recipe = RecipeRepository.getLastViewedRecipe(context);
-        ingredients = recipe.getIngredients();
+        if(recipe!= null)
+            ingredients = recipe.getIngredients();
     }
 
     @Override
     public void onDataSetChanged() {
         recipe = RecipeRepository.getLastViewedRecipe(context);
-        ingredients = recipe.getIngredients();
+        if(recipe!= null)
+            ingredients = recipe.getIngredients();
     }
 
     @Override

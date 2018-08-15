@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        viewModel.loadRecipes(this);
+        viewModel.loadRecipes();
         RecipeListAdapter adapter = new RecipeListAdapter(recipeList);
 
         if(recipesTabletRV == null) {

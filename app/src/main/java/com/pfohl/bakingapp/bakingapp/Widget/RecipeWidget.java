@@ -23,7 +23,9 @@ public class RecipeWidget extends AppWidgetProvider {
 
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_widget);
-        views.setTextViewText(R.id.recipe_list_name, recipe.getName());
+        if(recipe != null){
+            views.setTextViewText(R.id.recipe_list_name, recipe.getName());
+        }
 
         Intent intent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);

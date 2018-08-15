@@ -44,7 +44,9 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
         final Recipe recipe = recipeList.get(position);
         holder.recipeName.setText(recipe.getName());
         holder.servingSize.setText(this.context.getString(R.string.Serves_Prefix) + String.valueOf(recipe.getServings()));
-        Picasso.get().load(recipe.getImage()).placeholder(R.drawable.exo_controls_play).into(holder.recipeImage);
+        if(!recipe.getImage().isEmpty()){
+            Picasso.get().load(recipe.getImage()).placeholder(R.drawable.exo_controls_play).into(holder.recipeImage);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
