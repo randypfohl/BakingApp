@@ -41,12 +41,26 @@ public class RecipeActivity extends AppCompatActivity implements StepListFragmen
             transaction.add(R.id.step_fragment_frame, stepList, "stepListFrag");
             transaction.commit();
         }
+        else {
+
+            if(!list){
+                if (savedInstanceState != null) {
+                    StepListFragment step = (StepListFragment) getFragmentManager()
+                            .findFragmentByTag("stepListFrag");
+                    if (step != null) {
+                        step.setOnSelectListener(this);
+                    }
+                }
+            }
+
+        }
 
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
     }
 
     @Override
@@ -99,7 +113,7 @@ public class RecipeActivity extends AppCompatActivity implements StepListFragmen
     private void showIngredients(){
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("ingredients", recipe.getIngredients());
-        list = false;
+        list = true;
 
         if(tablet){
             IngredientListFragment fragment = new IngredientListFragment();

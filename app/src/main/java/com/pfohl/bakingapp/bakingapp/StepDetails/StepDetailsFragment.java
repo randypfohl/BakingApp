@@ -40,12 +40,13 @@ public class StepDetailsFragment extends Fragment {
     }
 
     private static String SELECTED_POSITION = "selected_position";
-
+    private static String PLAYER_STATE = "player_state";
     private SimpleExoPlayer player;
     private Step step;
     private Unbinder unbinder;
     private NavigationListener listener;
     private long position;
+    private boolean playing;
 
     public StepDetailsFragment() {
         // Required empty public constructor
@@ -85,12 +86,17 @@ public class StepDetailsFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(SELECTED_POSITION, position);
+        outState.putBoolean(PLAYER_STATE, playing);
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        position = player.getCurrentPosition();
+        if(player!= null) {
+            position = player.getCurrentPosition();
+            playing = player.getPlayWhenReady();
+        }
         unbinder.unbind();
         removeListener();
         releasePlayer();
@@ -111,11 +117,16 @@ public class StepDetailsFragment extends Fragment {
         playerView.setVisibility(View.VISIBLE);
         if (savedInstanceState == null) {
             player.setPlayWhenReady(true);
-        } else if (savedInstanceState.containsKey(SELECTED_POSITION)) {
-            player.seekTo(savedInstanceState.getLong(SELECTED_POSITION));
+        } else {
+            if (savedInstanceState.containsKey(SELECTED_POSITION)) {
+                player.seekTo(savedInstanceState.getLong(SELECTED_POSITION));
+            }
+
+            if(savedInstanceState.containsKey(PLAYER_STATE)){
+            player.setPlayWhenReady(savedInstanceState.getBoolean(PLAYER_STATE));
+            }
         }
 
-        player.setPlayWhenReady(true);
     }
 
 

@@ -3,6 +3,7 @@ package com.pfohl.bakingapp.bakingapp.RecipeList;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private BakingIdlingResource mIdlingResource;
 
     //Data
-    List<Recipe> recipeList = new ArrayList<>();
+    ArrayList<Recipe> recipeList = new ArrayList<>();
 
     @VisibleForTesting
     @NonNull
@@ -54,11 +55,15 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         getIdlingResource();
         mIdlingResource.setIdleState(false);
+        if(savedInstanceState != null){
+            recipeList = savedInstanceState.getParcelableArrayList("Recipes");
+        }
+
         RecipeViewModel viewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
         viewModel.recipes.observe(this, new Observer<List<Recipe>>() {
             @Override
             public void onChanged(@Nullable List<Recipe> data) {
-                recipeList = data;
+                recipeList = new ArrayList<>(data);
                 if(recipesTabletRV == null){
                     recipesRV.swapAdapter(new RecipeListAdapter(data), true);
                 }
@@ -72,13 +77,27 @@ public class MainActivity extends AppCompatActivity {
         RecipeListAdapter adapter = new RecipeListAdapter(recipeList);
 
         if(recipesTabletRV == null) {
+            recipesRV.invalidate();
             recipesRV.setAdapter(adapter);
             recipesRV.setLayoutManager(new LinearLayoutManager(this));
         }
         else {
+            recipesTabletRV.invalidate();
             recipesTabletRV.setAdapter(adapter);
             recipesTabletRV.setLayoutManager(new GridLayoutManager(this, GRID_COLUMNS ));
         }
         mIdlingResource.setIdleState(true);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("Recipes", recipeList);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
