@@ -39,10 +39,13 @@ public class StepDetailsFragment extends Fragment {
         listener.onNavigationRequested(step.getId() + 1);
     }
 
+    private static String SELECTED_POSITION = "selected_position";
+
     private SimpleExoPlayer player;
     private Step step;
     private Unbinder unbinder;
     private NavigationListener listener;
+    private long position;
 
     public StepDetailsFragment() {
         // Required empty public constructor
@@ -66,13 +69,28 @@ public class StepDetailsFragment extends Fragment {
         this.step = getArguments().getParcelable("step");
         this.unbinder = ButterKnife.bind(this, view);
         initializeView();
-        initializePlayer(savedInstanceState);
+
+        if(!step.getVideoURL().isEmpty()){
+            initializePlayer(savedInstanceState);
+        }
+        else {
+            playerView.setVisibility(View.GONE);
+        }
+
         return  view;
     }
 
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(SELECTED_POSITION, position);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        position = player.getCurrentPosition();
         unbinder.unbind();
         removeListener();
         releasePlayer();
@@ -90,14 +108,12 @@ public class StepDetailsFragment extends Fragment {
                 DefaultHttpDataSourceFactory("bakingApp"))
                 .createMediaSource(Uri.parse(step.getVideoURL()));
         player.prepare(mediaSource, false, false);
-
-//        if (savedInstanceState == null) {
-//            player.setPlayWhenReady(true);
-//        } else if (savedInstanceState.containsKey(PLAYBACK_POS_EXTRA)) {
-//            player.setPlayWhenReady(savedInstanceState.getBoolean(PLAY_WHEN_READY_EXTRA));
-//            player.seekTo(savedInstanceState.getInt(CURRENT_WINDOW_EXTRA),
-//                    savedInstanceState.getLong(PLAYBACK_POS_EXTRA));
-//        }
+        playerView.setVisibility(View.VISIBLE);
+        if (savedInstanceState == null) {
+            player.setPlayWhenReady(true);
+        } else if (savedInstanceState.containsKey(SELECTED_POSITION)) {
+            player.seekTo(savedInstanceState.getLong(SELECTED_POSITION));
+        }
 
         player.setPlayWhenReady(true);
     }
