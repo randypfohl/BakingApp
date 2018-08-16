@@ -43,21 +43,26 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.Re
     public void onBindViewHolder(RecipeViewHolder holder, int position) {
         final Recipe recipe = recipeList.get(position);
         holder.recipeName.setText(recipe.getName());
-        holder.servingSize.setText(this.context.getString(R.string.Serves_Prefix) + String.valueOf(recipe.getServings()));
+        if(context != null){
+            holder.servingSize.setText(this.context.getString(R.string.Serves_Prefix) + String.valueOf(recipe.getServings()));
+        }
         if(!recipe.getImage().isEmpty()){
             Picasso.get().load(recipe.getImage()).placeholder(R.drawable.exo_controls_play).into(holder.recipeImage);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RecipeService.startActionUpdateListView(context, recipe);
+        if(context != null){
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                Intent intent = new Intent(context, RecipeActivity.class);
-                intent.putExtra(context.getString(R.string.recipe_intent_tag), recipe);
-                context.startActivity(intent);
-            }
-        });
+                    RecipeService.startActionUpdateListView(context, recipe);
+
+                    Intent intent = new Intent(context, RecipeActivity.class);
+                    intent.putExtra(context.getString(R.string.recipe_intent_tag), recipe);
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
