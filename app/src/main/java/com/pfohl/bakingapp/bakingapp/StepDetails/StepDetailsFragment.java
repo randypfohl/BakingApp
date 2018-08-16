@@ -39,10 +39,13 @@ public class StepDetailsFragment extends Fragment {
         listener.onNavigationRequested(step.getId() + 1);
     }
 
+    private static String SELECTED_POSITION = "selected_position";
+
     private SimpleExoPlayer player;
     private Step step;
     private Unbinder unbinder;
     private NavigationListener listener;
+    private long position;
 
     public StepDetailsFragment() {
         // Required empty public constructor
@@ -77,9 +80,17 @@ public class StepDetailsFragment extends Fragment {
         return  view;
     }
 
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(SELECTED_POSITION, position);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        position = player.getCurrentPosition();
         unbinder.unbind();
         removeListener();
         releasePlayer();
@@ -98,13 +109,11 @@ public class StepDetailsFragment extends Fragment {
                 .createMediaSource(Uri.parse(step.getVideoURL()));
         player.prepare(mediaSource, false, false);
         playerView.setVisibility(View.VISIBLE);
-//        if (savedInstanceState == null) {
-//            player.setPlayWhenReady(true);
-//        } else if (savedInstanceState.containsKey(PLAYBACK_POS_EXTRA)) {
-//            player.setPlayWhenReady(savedInstanceState.getBoolean(PLAY_WHEN_READY_EXTRA));
-//            player.seekTo(savedInstanceState.getInt(CURRENT_WINDOW_EXTRA),
-//                    savedInstanceState.getLong(PLAYBACK_POS_EXTRA));
-//        }
+        if (savedInstanceState == null) {
+            player.setPlayWhenReady(true);
+        } else if (savedInstanceState.containsKey(SELECTED_POSITION)) {
+            player.seekTo(savedInstanceState.getLong(SELECTED_POSITION));
+        }
 
         player.setPlayWhenReady(true);
     }
